@@ -23,7 +23,6 @@ function roll(container, duetime) {
         inner.style.width = contentHeight + "px";
         var mirror = item.cloneNode(true);
         inner.appendChild(mirror);
-        //if (!window.ActiveXObject && !("ActiveXObject" in window)) {
         if ("onanimationend" in window) {
             animationend(item);
             animationend(mirror);
