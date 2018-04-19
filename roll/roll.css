@@ -1,0 +1,44 @@
+.roll-container {
+    overflow: hidden;
+}
+
+.roll-inner {
+    position: relative;
+}
+
+.roll-item {
+    position: relative;
+}
+
+.roll-item:first-child {
+    -webkit-animation: roll 5s linear forwards;
+    -moz-animation: roll 5s linear forwards;
+    animation: roll 5s linear forwards;
+}
+
+@-webkit-keyframes roll {
+    0% {
+        margin-top: 0;
+    }
+    100% {
+        margin-top: -100%;
+    }
+}
+
+@-moz-keyframes roll {
+    0% {
+        margin-top: 0;
+    }
+    100% {
+        margin-top: -100%;
+    }
+}
+
+@keyframes roll {
+    0% {
+        margin-top: 0;
+    }
+    100% {
+        margin-top: -100%;
+    }
+}

@@ -1,0 +1,51 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Roll</title>
+    <link rel="stylesheet" href="./roll/roll.css">
+    <style>
+        #rollContainer{
+            border:1px solid;
+            height: 100px;
+            width:200px;
+        }
+    </style>
+</head>
+<body>
+    <div id="rollContainer">
+        <table>
+            <thead>
+                <tr>
+                    <td>
+                        我是第一行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第二行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第三行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第四行
+                    </td>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <script src="./roll/roll.js" ></script>
+    <script>
+        //滚动容器中的元素生成以后再调用这个方法
+        //滚动周期是通过css来设置的,大约是在roll.css中13行
+        //第二个参数5000是5000毫秒,是为了兼容ie9,这个值必须跟css中设置的动画周期值相同
+        roll(document.querySelector("#rollContainer"), 5000);
+    </script>
+</body>
+</html>
