@@ -38,14 +38,24 @@
                         我是第四行
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        我是第五行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第六行
+                    </td>
+                </tr>
             </thead>
         </table>
     </div>
     <script src="./roll/roll.js" ></script>
     <script>
         //滚动容器中的元素生成以后再调用这个方法
-        //滚动周期是通过css来设置的,大约是在roll.css中13行
-        //第二个参数5000是5000毫秒,是为了兼容ie9,这个值必须跟css中设置的动画周期值相同
+        //滚动周期是通过css来设置的,大约是在roll.css中9行
+        //第二个参数5000是5000毫秒,是为了兼容ie,指循环周期,在现代浏览器中不起作用
         roll(document.querySelector("#rollContainer"), 5000);
     </script>
 </body>
