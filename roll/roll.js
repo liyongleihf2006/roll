@@ -21,8 +21,14 @@ function roll(container, duetime) {
         item.appendChild(content);
         inner.appendChild(item);
         inner.style.width = contentHeight + "px";
-        var mirror = item.cloneNode(true);
-        inner.appendChild(mirror);
+        if(window.jQuery){
+            var mirror = $(item).clone(true,true);
+            $(inner).append(mirror);
+            mirror = mirror.get(0);
+        }else{
+            var mirror = item.cloneNode(true);
+            inner.appendChild(mirror);
+        }
         if ("onanimationend" in window) {
             animationend(item);
             animationend(mirror);
