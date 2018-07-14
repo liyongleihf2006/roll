@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,13 +8,14 @@
     <title>Roll</title>
     <link rel="stylesheet" href="./roll/roll.css">
     <style>
-        #rollContainer{
-            border:1px solid;
+        #rollContainer {
+            border: 1px solid;
             height: 100px;
-            width:200px;
+            width: 200px;
         }
     </style>
 </head>
+
 <body>
     <span>注意:滚动插件中引入的元素使用jquery绑定的事件才可以正常被触发</span>
     <div id="rollContainer">
@@ -49,19 +51,140 @@
                         我是第六行
                     </td>
                 </tr>
+                <tr class="first">
+                    <td>
+                        我是第一行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第二行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第三行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第四行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第五行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第六行
+                    </td>
+                </tr>
+                <tr class="first">
+                    <td>
+                        我是第一行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第二行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第三行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第四行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第五行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第六行
+                    </td>
+                </tr>
+                <tr class="first">
+                    <td>
+                        我是第一行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第二行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第三行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第四行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第五行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第六行
+                    </td>
+                </tr>
+                <tr class="first">
+                    <td>
+                        我是第一行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第二行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第三行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第四行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第五行
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        我是第六行
+                    </td>
+                </tr>
             </thead>
         </table>
     </div>
     <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
-    <script src="./roll/roll.js" ></script>
+    <script src="./roll/roll.js"></script>
     <script>
-        $(".first").on("click",function(){
+        $(".first").on("click", function () {
             console.log("first");
         })
         //滚动容器中的元素生成以后再调用这个方法
         //滚动周期是通过css来设置的,大约是在roll.css中9行
-        //第二个参数5000是5000毫秒,是为了兼容ie,指循环周期,在现代浏览器中不起作用
-        roll(document.querySelector("#rollContainer"), 5000);
+        //第二个参数30000是30000毫秒,是为了兼容ie,指循环周期,在现代浏览器中不起作用
+        roll(document.querySelector("#rollContainer"), 30000);
     </script>
 </body>
+
 </html>

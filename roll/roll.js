@@ -8,6 +8,7 @@
 function roll(container, duetime) {
     var content = container.firstElementChild;
     var containerHeight = container.clientHeight,
+        containerWidth = container.clientWidth,
         contentHeight = content.offsetHeight;
     //当容器小于要滚动的元素的时候才滚动否则不滚动
     if (containerHeight < contentHeight) {
@@ -18,9 +19,11 @@ function roll(container, duetime) {
         container.appendChild(inner);
         var item = document.createElement("div");
         item.setAttribute("class", "roll-item");
+        item.style.width = containerWidth + "px";
         item.appendChild(content);
         inner.appendChild(item);
         inner.style.width = contentHeight + "px";
+        inner.style.height = contentHeight + "px";
         if(window.jQuery){
             var mirror = $(item).clone(true,true);
             $(inner).append(mirror);
