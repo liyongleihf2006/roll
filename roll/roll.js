@@ -21,6 +21,7 @@ function roll(container, duetime) {
         item.appendChild(content);
         inner.appendChild(item);
         inner.style.width = contentHeight + "px";
+        inner.style.height = contentHeight + "px";
         if(window.jQuery){
             var mirror = $(item).clone(true,true);
             $(inner).append(mirror);
