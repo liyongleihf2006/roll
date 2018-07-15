@@ -8,7 +8,7 @@
     position: relative;
 }
 
-.roll-item:first-child {
+.roll-item {
     -webkit-animation-name:roll;
     -webkit-animation-duration:30s;
     -webkit-animation-timing-function: linear;
@@ -29,27 +29,27 @@
 }
 @-webkit-keyframes roll {
     0% {
-        margin-top: 0;
+        top: 0;
     }
     100% {
-        margin-top: -100%;
+        top: -100%;
     }
 }
 
 @-moz-keyframes roll {
     0% {
-        margin-top: 0;
+        top: 0;
     }
     100% {
-        margin-top: -100%;
+        top: -100%;
     }
 }
 
 @keyframes roll {
     0% {
-        margin-top: 0;
+        top: 0;
     }
     100% {
-        margin-top: -100%;
+        top: -100%;
     }
 }

@@ -46,7 +46,9 @@ function roll(container, duetime) {
                     preTime = duetime / countTotal;
                 IEMove();
                 function IEMove() {
-                    dom.style.marginTop = -speed * (i + 1) + "px";
+                    [].forEach.call(inner.children,function(element) {
+                        element.style.top = -speed * (i + 1) + "px";     
+                    });
                     if (!pause) {
                         if (i < countTotal) {
                             setTimeout(function () {
@@ -55,7 +57,9 @@ function roll(container, duetime) {
                             }, preTime);
                         } else {
                             i = 0;
-                            dom.style.marginTop = 0;
+                            [].forEach.call(inner.children,function(element) {
+                                element.style.top = 0;     
+                            });
                             inner.appendChild(dom);
                             doMove();
                         }
