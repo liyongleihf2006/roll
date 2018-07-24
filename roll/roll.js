@@ -1,83 +1,169 @@
-/**
- * 一个简单的上下滚动展示插件
- * @author liyongleihf2006
- * @param {Element} container 将要变为滚动展示容器的元素
- * @param {Number}   duetime 当ie浏览器的时候,动画的周期时长
- * (当使用现代浏览器时,设置duetime不起作用,动画周期请在roll.css中大约9行设置) 
- */
-function roll(container, duetime) {
-    var content = container.firstElementChild;
-    var containerHeight = container.clientHeight,
-        containerWidth = container.clientWidth,
-        contentHeight = content.offsetHeight;
-    //当容器小于要滚动的元素的时候才滚动否则不滚动
-    if (containerHeight < contentHeight) {
-        container.setAttribute("class", (container.getAttribute("class") || "") + " roll-container");
-        container.setAttribute("will-change", true);
-        var inner = document.createElement("div");
-        inner.setAttribute("class", "roll-inner");
-        container.appendChild(inner);
-        var item = document.createElement("div");
-        item.setAttribute("class", "roll-item");
-        item.style.width = containerWidth + "px";
-        item.appendChild(content);
-        inner.appendChild(item);
-        inner.style.width = contentHeight + "px";
-        inner.style.height = contentHeight + "px";
-        if(window.jQuery){
-            var mirror = $(item).clone(true,true);
-            $(inner).append(mirror);
-            mirror = mirror.get(0);
-        }else{
-            var mirror = item.cloneNode(true);
-            inner.appendChild(mirror);
-        }
-        if ("onanimationend" in window) {
-            animationend(item);
-            animationend(mirror);
+(function ($) {
+    if ($.fn.roll) {
+        return;
+    }
+    var setMethods = {
+        refresh: refresh
+    };
+    var getMethods = {
+        pause: pause,
+        run: run
+    };
+    $.fn.roll = function () {
+        var args = arguments, params, method;
+        if (!args.length || typeof args[0] == 'object') {
+            return this.each(function (idx) {
+                var $self = $(this);
+                $self.data('roll', $.extend(true, {}, $.fn.roll.default, args[0]));
+                params = $self.data('roll');
+                _init.call($self, params);
+                _render.call($self);
+            });
         } else {
-            var i = 0,
-                pause = false;
-            doMove();
-            function doMove() {
-                var dom = inner.firstElementChild,
-                    countTotal = 100,
-                    speed = contentHeight / countTotal,
-                    preTime = duetime / countTotal;
-                IEMove();
-                function IEMove() {
-                    [].forEach.call(inner.children,function(element) {
-                        element.style.top = -speed * (i + 1) + "px";     
-                    });
-                    if (!pause) {
-                        if (i < countTotal) {
-                            setTimeout(function () {
-                                i++;
-                                IEMove();
-                            }, preTime);
-                        } else {
-                            i = 0;
-                            [].forEach.call(inner.children,function(element) {
-                                element.style.top = 0;     
-                            });
-                            inner.appendChild(dom);
-                            doMove();
-                        }
-                    }
-                }
+            if (!$(this).data('roll')) {
+                throw new Error('You has not init roll!');
             }
+            params = Array.prototype.slice.call(args, 1);
+            if (setMethods.hasOwnProperty(args[0])) {
+                method = setMethods[args[0]];
+                return this.each(function (idx) {
+                    var $self = $(this);
+                    method.apply($self, params);
+                    _render.call($self);
+                });
+            } else if (getMethods.hasOwnProperty(args[0])) {
+                method = getMethods[args[0]];
+                return method.apply(this, params);
+            } else {
+                throw new Error('There is no such method');
+            }
+        }
+    }
+    $.fn.roll.default = {
+        speed: 50
+    }
+    function _init(params) {
+        return this;
+    }
+    function _render() {
+        var $self = this,
+            params = $self.data("roll"),
+            speed = params.speed;
+        var container = $self.get(0),
+            rollItem = container.querySelector(".roll-item");
+        if (!rollItem) {
+            content = container.firstElementChild;
+        } else {
+            content = rollItem.firstElementChild;
+        }
+        var containerHeight = container.clientHeight,
+            containerWidth = container.clientWidth,
+            contentHeight = content.offsetHeight;
+
+        var newRollItem = $("<div/>", {
+            "class": "roll-item"
+        })
+            .css({
+                "width": containerWidth,
+                "animationDuration": function () {
+                    return contentHeight / speed + "s";
+                }
+            })
+            .append(content);
+        //当容器小于要滚动的元素的时候才滚动否则不滚动
+        $(container)
+            .toggleClass("roll-pause", containerHeight > contentHeight)
+            .addClass("roll-container")
+            .prop("will-change", true)
+            .html(
+                $("<div/>", {
+                    "class": "roll-inner"
+                }).css({
+                    "width": contentHeight,
+                    "height": contentHeight
+                })
+                    .append(
+                        newRollItem,
+                        function () {
+                            if (containerHeight < contentHeight) {
+                                return $(newRollItem).clone(true, true);
+                            }
+                        }()
+                    )
+            )
+        if (!("onanimationend" in window)&&containerHeight < contentHeight) {
+            
+            doMove.call($self);
+            var inner = $self.find(".roll-inner").get(0);
             inner.addEventListener("mouseenter", function () {
-                pause = true;
+                params.pause = true;
             });
             inner.addEventListener("mouseleave", function () {
-                pause = false;
-                doMove();
+                params.pause = false;
+                doMove.call($self);
             });
         }
     }
-    function animationend(dom) {
-        dom.addEventListener("animationend", function () {
-            inner.appendChild(inner.firstElementChild);
-        });
+    function doMove() {
+        var $self = this,
+        params = $self.data("roll");
+        var inner = $self.find(".roll-inner").get(0);
+        var dom = inner.firstElementChild,
+            preTime = 17;
+            clearTimeout(params._t);
+        IEMove();
+        function IEMove() {
+            [].forEach.call(inner.children, function (element) {
+                $(element).css({
+                    top: function (idx,val) {
+                        if(val==="auto"){
+                            val=0;
+                        }
+                        return parseFloat(val) - params.speed / (1000 / 17);
+                    }
+                });
+            });
+            if (!params.pause) {
+                if (parseFloat($(dom).css("top")) + dom.clientHeight > 0) {
+                    params._t = setTimeout(function () {
+                        IEMove();
+                    }, preTime);
+                } else {
+                    [].forEach.call(inner.children, function (element) {
+                        $(element).css({ top: 0 });
+                    });
+                    doMove.call($self);
+                }
+            }
+        }
     }
-}
+    function pause() {
+        var $self = this,
+            params = $self.data("roll");
+        params.pause = true;
+        $self.addClass("roll-pause");
+    }
+    function run() {
+        var $self = this,
+            params = $self.data("roll");
+        params.pause = false;
+        var container = $self.get(0),
+            rollItem = container.querySelector(".roll-item");
+        if (!rollItem) {
+            content = container.firstElementChild;
+        } else {
+            content = rollItem.firstElementChild;
+        }
+        var containerHeight = container.clientHeight,
+            contentHeight = content.offsetHeight;
+        if (containerHeight < contentHeight) {
+            $self.removeClass("roll-pause");
+            if (!("onanimationend" in window)) {
+                doMove.call($self);
+            }
+        }
+    }
+    function refresh() {
+
+    }
+})(jQuery);
